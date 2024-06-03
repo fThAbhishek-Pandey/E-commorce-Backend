@@ -18,7 +18,7 @@ app.use(express.json());// middleware
  mongoose.connect(db_config.DB_URL);
  const db =mongoose.connection;
 db.on("error", ()=>{
-     console.log("error to connecting database");
+     console.log("error to connecting Mongo database");
 });
 db.once("open",()=>{
         console.log("Connected to MongoDB");
@@ -63,7 +63,7 @@ app.listen(server_config.PORT, ()=>{
         console.log("server started at port no : ",server_config.PORT);
     }
    catch(error){
-       console.log("I am alreay used addres ",server_config.PORT,"and error : ",error);
+       console.log("I am alreay used addres  error : ",error);
    }
    
 }); 

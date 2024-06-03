@@ -16,7 +16,7 @@ const userObj={
     userID : request_body.userID,
     email : request_body.email,
     userType : request_body.userType,
-    password : bcrypt.hashSync(request_body.password,8),
+    password : bcrypt.hashSync(request_body.password,10),
 }
 try {
       const user_created= await  user_model.create(userObj);
@@ -31,9 +31,9 @@ try {
         createdAt : user_created.createdAt,
         updatedAt : user_created.updateAt
     }
-      res.status(201).send(userObj);
+      res.status(201).send(res_obj);
 }
-catch(error){
+catch(err){
         console.log("error while registering the user", err);
         res.status(500).send({
             message : "some error happen while registering the user",

@@ -1,8 +1,8 @@
 const user_model = require("../Model/user.model");
 /**
- * Create a new check if request body is proper and correct 
+ * Create a middleware  check if request body is proper and correct 
  */
-const verifySigupBody = (req,res, next)=>{
+const verifySigupBody = async (req,res, next)=>{
         try {
             // check for the name 
             if(!req.body.name){
@@ -23,7 +23,13 @@ const verifySigupBody = (req,res, next)=>{
                 }) 
             }
             // check if the user same user ID is already present
-
+            const user = await user_model.findOne({userID :req.body.userID});
+            if(user){
+                return res.status(400).send({
+                    message : "Failed ! user with same userID is already Present",
+                });
+            }
+            next();
         }
         catch (err){
                 console.log("Error while validating the request object",err);
@@ -31,4 +37,7 @@ const verifySigupBody = (req,res, next)=>{
                     massage: "error while validating the request body",
                 });
         }
+}
+module.exports = {
+    verifySigupBody :verifySigupBody,
 }
