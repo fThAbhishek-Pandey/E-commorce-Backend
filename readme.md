@@ -38,4 +38,5 @@ OTP + Password
  * password
  * email
  * userType
- 
+ ## Create user 
+ ### 

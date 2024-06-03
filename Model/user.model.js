@@ -33,6 +33,6 @@ const userSchema = new mongoose.Schema({
         defalt : "CUSTOMER",
         enum : ["CUSTOMER", "ADMIN"]
     }
-},{versionKey: false});
+},{timestamps:true ,versionKey: false});
 
 module.exports = mongoose.model("User",userSchema);
