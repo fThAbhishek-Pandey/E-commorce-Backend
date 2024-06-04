@@ -11,5 +11,5 @@ module.exports = (app) =>{
  * route for
  * POST localhost:8080/ecomm/api/v1/auth/signin
  */
-app.post("/ecomm/api/v1/auth/signin",authController.signin);
+app.post("/ecomm/api/v1/auth/signin",[authMiddleware.verifySigninBody],authController.signin);
 }
