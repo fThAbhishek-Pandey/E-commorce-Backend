@@ -12,4 +12,8 @@ module.exports = (app) =>{
  * POST localhost:8080/ecomm/api/v1/auth/signin
  */
 app.post("/ecomm/api/v1/auth/signin",[authMiddleware.verifySigninBody],authController.signin);
+cotegory_controller = require("../Controller/cotegory.controller");
+module.exports = (app)=>{
+    app.post("/ecomm/api/v1/auth/",[authMW.verifyToken],category_controller.createNewcategory);
+}
 }

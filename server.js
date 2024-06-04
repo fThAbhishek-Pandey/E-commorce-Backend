@@ -55,6 +55,7 @@ async function init(){
  * stich the route to the server
  */
 require("./Routes/auth.routes")(app);
+require("./Routes/cotegory.routes")(app);
 /**
  * start the server 
  */

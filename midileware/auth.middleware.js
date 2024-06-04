@@ -1,4 +1,5 @@
 const user_model = require("../Model/user.model");
+const jwt = require ("jsonwebtoken");
 /**
  * Create a middleware  check if request body is proper and correct 
  */
@@ -51,7 +52,47 @@ const verifySigninBody = async (req,res,next)=>{
             }
             next();
 }
+const verifyToken = (req, res, next) =>{
+        // Check if the token is present in the header 
+        const token = req.header['x-access-token'];
+        if(!token){
+            return res.status(403).send({
+                massage : "No Token Found"
+            })
+        }
+        // If it's the valid token 
+        jwt.verify(token.auth_configs.secret, async (err,decoded)=>{
+            if(err){
+                return res.status(401).send({
+                    message : "Unautherised !",
+                });
+            }
+
+            const user = await user_model.findOne({userID : decoded.id});
+            if(!user){
+                return res.status(400).send({
+                    message : "unAutherised , this user for this token does not exist ",
+                })
+            }
+            req.user = user;
+            // set the user info in the request body
+            next();
+        });
+}
+const isAdmin = (req,res,next) =>{
+    const user = req.user;
+    if( user && user.userType == "ADMIN"){
+        next();
+    }
+    else {
+        return res.status(403).send({
+            message :"Only ADMIN users are allouwed to access to this end", 
+        })
+    }
+}
 module.exports = {
     verifySigupBody :verifySigupBody,
     verifySigninBody :verifySigninBody,
+    verifyToken: verifyToken,
+    isAdmin : isAdmin,
 }
